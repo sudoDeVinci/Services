@@ -1,0 +1,31 @@
+services:
+  pihole:
+    container_name: pihole
+    env_file: .env
+    image: pihole/pihole:latest
+    # Only expose the web UI; do NOT expose 53/67
+    ports:
+      - ${DNS_BIND_IP}:8088:80
+      - ${DNS_BIND_IP}:8443:443
+      - ${DNS_BIND_IP}:8053:53/udp
+      - ${DNS_BIND_IP}:8053:53/tcp
+
+    volumes:
+      - "./etc-pihole:/etc/pihole"
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    networks:
+      lancache-net:
+        # Arbitrarily chosen IP address within the network range
+        # Feel free to change this, but you also need to change the
+        # same address in the Lancache config as it points to this as
+        # an upstream DNS server
+        ipv4_address: 172.28.0.10
+
+# This exists on the same internal network as the lancache container.
+# We do not to create this network first with the `docker network create` command,
+# Along with the subnet settings.
+networks:
+  lancache-net:
+    external: true

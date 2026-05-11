@@ -17,12 +17,13 @@ Each service with a `.env.example` file requires configuration before first run.
 ## Network Layout
 
 Lancache and Pi-hole share the `lancache-net` network (172.28.0.0/16). Pi-hole is assigned 172.28.0.10 and serves as the upstream DNS for Lancache.
+Other DNS services such as `Unbound` may be added later but are not currently included in this setup.
 
 ## Services
 
 ### Immich
 
-Photo and video management server with machine learning capabilities (configured for AMD ROCm since that's what I use).
+Photo and video management server with machine learning capabilities.
 
 | Port | Service |
 |------|---------|
@@ -34,21 +35,21 @@ cp .env.example .env
 docker compose up -d
 ```
 
-### Lancache
+<table>
+  <tr>
+    <th>Image</th>
+    <th>description</th>
+  </tr>
+  <tr>
+    <td><img src="/media/immich_rocm_support.png" alt="Immich w/ rocm support" height="600"> </td>
+    <td>Here you can see the dashboard with the ROCm support enabled, used with an RX6800.</td>
+  </tr>
+  <tr>
+    <td><img src="/media/immich_appview.png" alt="Immich w/ rocm support" height="600"</td>
+    <td>Here's the regular app view once set up. It's almost identical in featureset to Google photos.</td>
+  </tr>
+</table>
 
-LAN caching server for game downloads. Works in conjunction with Pi-hole for DNS.
-
-| Port | Service |
-|------|---------|
-| 53 | DNS |
-| 80 | HTTP cache |
-| 443 | HTTPS passthrough |
-
-```
-cd lancache
-cp .env.example .env
-docker compose up -d
-```
 
 ### ownCloud
 
@@ -80,6 +81,22 @@ cp .env.example .env
 docker compose up -d
 ```
 
+<table>
+  <tr>
+    <th>Image</th>
+    <th>description</th>
+  </tr>
+  <tr>
+    <td><img src="/media/armbian_install.png" alt="Immich w/ rocm support" height="600"> </td>
+    <td>For my purposes, ive found that something as low power as an Orange pi Zero is more than enough to run a pihole instance, including Unbound as well.</td>
+  </tr>
+  <tr>
+    <td><img src="/media/pihole_dashboard.png" alt="Immich w/ rocm support" height="600"> </td>
+    <td>Pihole dashboard showing the blocking behaviour over time. Only 5 blocklists are used, but offer about 90% coverage on most adblocking tests.</td>
+  </tr>
+</table>
+
+
 ### Portainer
 
 Docker management UI.
@@ -92,6 +109,17 @@ Docker management UI.
 cd portainer
 docker compose up -d
 ```
+
+<table>
+  <tr>
+    <th>Image</th>
+    <th>description</th>
+  </tr>
+  <tr>
+    <td><img src="/media/portainer_dashboard.png" alt="Immich w/ rocm support" height="600"> </td>
+    <td>Portainer dashboard. In this example the only things running are portainer iself and a pihole instance</td>
+  </tr>
+</table>
 
 ### Open WebUI
 
@@ -106,8 +134,29 @@ cd webui
 docker compose up -d
 ```
 
-Firewall rule (if needed):
+#### Firewall rule (if needed):
 ```
 sudo firewall-cmd --zone=public --add-port=3000/tcp --permanent
 sudo firewall-cmd --reload
 ```
+
+<table>
+  <tr>
+    <th>Dashboard Splash Page</th>
+    <th>description</th>
+  </tr>
+  <tr>
+    <td><img src="/media/webui_landing.png" alt="Immich w/ rocm support" height="600"> </td>
+    <td><img src="/media/webui_convo.png" alt="Immich w/ rocm support" height="600"></td>
+  </tr>
+</table>
+
+
+### Gitlab CE
+
+Gitlab CE instance. Especially useful with the decline of Github as a service.
+
+| Port | Service |
+|------|---------|
+| 6000 | Web UI (HTTP) |
+| 6443 | Web UI (HTTPS) |

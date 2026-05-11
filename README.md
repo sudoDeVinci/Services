@@ -50,21 +50,6 @@ docker compose up -d
   </tr>
 </table>
 
-### Lancache
-
-LAN caching server for game downloads. Works in conjunction with Pi-hole for DNS.
-
-| Port | Service |
-|------|---------|
-| 53 | DNS |
-| 80 | HTTP cache |
-| 443 | HTTPS passthrough |
-
-```
-cd lancache
-cp .env.example .env
-docker compose up -d
-```
 
 ### ownCloud
 
@@ -149,7 +134,7 @@ cd webui
 docker compose up -d
 ```
 
-Firewall rule (if needed):
+#### Firewall rule (if needed):
 ```
 sudo firewall-cmd --zone=public --add-port=3000/tcp --permanent
 sudo firewall-cmd --reload
@@ -157,15 +142,21 @@ sudo firewall-cmd --reload
 
 <table>
   <tr>
-    <th>Image</th>
+    <th>Dashboard Splash Page</th>
     <th>description</th>
   </tr>
   <tr>
     <td><img src="/media/webui_landing.png" alt="Immich w/ rocm support" height="600"> </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><img src="/media/webui_convo.png" alt="Immich w/ rocm support" height="600"> </td>
-    <td></td>
+    <td><img src="/media/webui_convo.png" alt="Immich w/ rocm support" height="600"></td>
   </tr>
 </table>
+
+
+### Gitlab CE
+
+Gitlab CE instance. Especially useful with the decline of Github as a service.
+
+| Port | Service |
+|------|---------|
+| 6000 | Web UI (HTTP) |
+| 6443 | Web UI (HTTPS) |
